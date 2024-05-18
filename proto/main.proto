@@ -1,0 +1,185 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "github.com/yerkebayev/go-final-go/proto";
+
+service TeacherService {
+  rpc RegisterTeacher(RegisterTeacherRequest) returns (RegisterTeacherResponse);
+  rpc AddSession(AddSessionRequest) returns (AddSessionResponse);
+  rpc GetSession(GetSessionRequest) returns (GetSessionResponse);
+}
+
+message RegisterTeacherRequest {
+  string name = 1;
+}
+
+message RegisterTeacherResponse {
+  int32 id = 1;
+}
+
+message AddSessionRequest {
+  int32 teacherId = 1;
+  int32 courseId = 2;
+  string date = 3;
+}
+
+message AddSessionResponse {
+  int32 id = 1;
+}
+
+message GetSessionRequest {
+  int32 id = 1;
+}
+
+message GetSessionResponse {
+  int32 id = 1;
+  int32 teacherId = 2;
+  int32 courseId = 3;
+  string date = 4;
+  repeated Attendance attendances = 5;
+}
+
+message Attendance {
+  int32 id = 1;
+  int32 sessionId = 2;
+  int32 studentId = 3;
+  string time = 4;
+}
+
+service StudentService {
+  rpc AddAttendance(AttendanceRequest) returns (AttendanceResponse);
+  rpc AddStudent(AddStudentRequest) returns (AddStudentResponse);
+  rpc GetStudentNames (GetStudentNamesRequest) returns (GetStudentNamesResponse);
+  rpc UploadImages (UploadImagesRequest) returns (UploadImagesResponse);
+  rpc GetImages (GetImagesRequest) returns (GetImagesResponse);
+}
+
+message AddStudentResponse {
+  int32 id = 1;
+}
+
+message AddStudentRequest {
+  int32 id = 1;
+  string studentNumberId = 2;
+  string name = 3;
+}
+
+message GetStudentNamesRequest {}
+
+message GetStudentNamesResponse {
+  repeated Student students = 1;
+}
+
+message GetImagesRequest {}
+
+message GetImagesResponse {
+  repeated Image images = 1;
+}
+
+message UploadImagesRequest {
+  int32 user_id = 1;
+  repeated Image images = 2;
+}
+
+message UploadImagesResponse {
+  string status = 1;
+}
+
+message Image {
+  int32 id = 1;
+  int32 userId = 2;
+  bytes data = 3;
+}
+
+message Student {
+  int32 id = 1;
+  string studentNumberId = 2;
+  string name = 3;
+}
+
+service AdminService {
+  rpc AddStudentToCourse(AddStudentToCourseRequest) returns (AddStudentToCourseResponse);
+  rpc DeleteStudent(DeleteStudentRequest) returns (DeleteStudentResponse);
+  rpc DeleteTeacher(DeleteTeacherRequest) returns (DeleteTeacherResponse);
+  rpc AddCourse(AddCourseRequest) returns (AddCourseResponse);
+  rpc DeleteCourse(DeleteCourseRequest) returns (DeleteCourseResponse);
+  rpc GetCourses(Empty) returns (GetCoursesResponse);
+  rpc GetStudents(Empty) returns (GetStudentsResponse);
+  rpc GetTeachers(Empty) returns (GetTeachersResponse);
+}
+
+message Empty {}
+
+message Course {
+  int32 id = 1;
+  string title = 2;
+}
+
+message Teacher {
+  int32 id = 1;
+  string name = 2;
+}
+
+message GetCoursesResponse {
+  repeated Course courses = 1;
+}
+
+message GetStudentsResponse {
+  repeated Student students = 1;
+}
+
+message GetTeachersResponse {
+  repeated Teacher teachers = 1;
+}
+
+message AddStudentToCourseRequest {
+  int32 studentId = 1;
+  int32 courseId = 2;
+}
+
+message AddStudentToCourseResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message AttendanceRequest {
+  int32 id = 1;
+}
+
+message AttendanceResponse {
+  int32 id = 1;
+  string details = 2;
+}
+
+message DeleteStudentRequest {
+  int32 id = 1;
+}
+
+message DeleteStudentResponse {
+  int32 id = 1;
+}
+
+message DeleteTeacherRequest {
+  int32 id = 1;
+}
+
+message DeleteTeacherResponse {
+  int32 id = 1;
+}
+
+message AddCourseRequest {
+  string name = 1;
+}
+
+message AddCourseResponse {
+  int32 id = 1;
+}
+
+message DeleteCourseRequest {
+  int32 id = 1;
+}
+
+message DeleteCourseResponse {
+  int32 id = 1;
+}
